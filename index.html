@@ -5,8 +5,28 @@
 	<meta charset="utf-8" />
 	<title>Mass Effect Space And Time Line</title>
 
-	<script type="text/javascript">
+	<link rel="stylesheet" type="text/css" href="style.css">
 
+	<script type="text/javascript">
+		"use strict";
+
+		// constants
+		var CANVAS_WIDTH = 960;
+		var CANVAS_HEIGHT = 500;
+
+		var ctx;
+
+		function init(){
+			var canvasElement = document.querySelector("canvas");
+			console.log(CANVAS_WIDTH);
+			canvasElement.width = window.innerWidth;
+			canvasElement.height = window.innerHeight;
+
+			// 2d context
+			ctx = canvasElement.getContext("2d");
+		}
+
+		window.onload = init;
 	</script>
 </head>
 
