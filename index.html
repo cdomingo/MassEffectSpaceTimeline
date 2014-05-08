@@ -7,26 +7,104 @@
 
 	<link rel="stylesheet" type="text/css" href="style.css">
 
+	<script src="scripts/dataNode.js"></script>
+	<script src="scripts/utils.js"></script>
+
 	<script type="text/javascript">
 		"use strict";
+
+		window.addEventListener("load", loadImages);
 
 		// constants
 		var CANVAS_WIDTH = 960;
 		var CANVAS_HEIGHT = 500;
+		var IMAGE_SOURCES = {
+			nodeImage: "images/circle.png"
+			//novelImage: "images/novel.png",
+			//dlcImg: "images/dlc.png",
+			//gameImg: "images/game.png"
+		};
 
+		//Globals
 		var ctx;
+		var lastTime;
+		var data = [];
+		var images = {};
+		var frameID;
 
 		function init(){
 			var canvasElement = document.querySelector("canvas");
-			console.log(CANVAS_WIDTH);
+			//console.log(CANVAS_WIDTH);
 			canvasElement.width = window.innerWidth;
 			canvasElement.height = window.innerHeight;
+			//canvasElement.style.background = "black";
 
 			// 2d context
 			ctx = canvasElement.getContext("2d");
+
+			loadNodes();
+
+			animate();
+		} // end of init
+
+		function animate(){
+			//console.log("animate");
+			var dt = calculateDeltaTime();
+
+			//Draw Background
+			//drawBackground();
+
+			//Draw Everything Else
+			drawNodes();
+
+			frameID = window.requestAnimFrame(animate);
 		}
 
-		window.onload = init;
+		function drawNodes(){
+			data.forEach(function(data){
+				data.draw(ctx);
+			});
+		}
+
+		function loadNodes(){
+			data.push(new dataNode());
+		}
+
+		// HELPER FUNCTIONS
+
+		function calculateDeltaTime() {
+			var now, fps;
+
+			now = (+new Date);
+			fps = 1000 / (now - lastTime);
+			fps = clamp(fps, 12, 30);
+			lastTime = now;
+			return 1 / fps;
+		}
+
+		function loadImages(){
+			var numLoadedImages = 0;
+			var numImages = 0;
+
+			for(var imageName in  IMAGE_SOURCES){
+				numImages++;
+			}
+
+			for(var imageName in IMAGE_SOURCES){
+					//console.log("Started loading" + imageName);
+					images[imageName] = new Image();
+					images[imageName].src = IMAGE_SOURCES[imageName];
+
+					images[imageName].onload = function() {
+						//console.log(this.src + "load complete");
+						if(++numLoadedImages >= numImages){
+							//console.log("Done loading images");
+							init(); //Start the game already
+						}
+					};
+			}
+		} // end of loadImages
+
 	</script>
 </head>
 
@@ -34,6 +112,6 @@
 	<canvas>
 		Your browser doesn't support canvas!
 	</canvas>
-</body>	
+</body>
 
 </html>
