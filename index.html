@@ -18,8 +18,10 @@
 		// constants
 		var CANVAS_WIDTH = 960;
 		var CANVAS_HEIGHT = 500;
+		var offset = 75;
 		var IMAGE_SOURCES = {
-			nodeImage: "images/circle.png"
+			nodeImage: "images/circle.png",
+			backgroundImg: "images/background1.jpg"
 			//novelImage: "images/novel.png",
 			//dlcImg: "images/dlc.png",
 			//gameImg: "images/game.png"
@@ -27,32 +29,84 @@
 
 		//Globals
 		var ctx;
-		var lastTime;
+		var lastTime, bkgrdX = 0;
 		var data = [];
 		var images = {};
 		var frameID;
+		var keydown = [];
+		var currNode = 0;
+
+		var KEYBOARD = {
+			"KEY_LEFT": 37,
+			"KEY_RIGHT": 39
+		};
 
 		function init(){
 			var canvasElement = document.querySelector("canvas");
 			//console.log(CANVAS_WIDTH);
 			canvasElement.width = window.innerWidth;
 			canvasElement.height = window.innerHeight;
-			//canvasElement.style.background = "black";
+
+			CANVAS_WIDTH = canvasElement.width;
+			CANVAS_HEIGHT = canvasElement.height;
+
+			canvasElement.style.background = "black";
 
 			// 2d context
 			ctx = canvasElement.getContext("2d");
 
-			loadNodes();
+			// event listener keys
+			window.addEventListener("keydown", function(e){
+				//console.log("keydown= " + e.keyCode);
+				keydown[e.keyCode] = true;
+			});
+			
+			window.addEventListener("keyup", function(e){
+				//console.log("keyup= " + e.keyCode);
+				keydown[e.keyCode] = false;
+			});
 
 			animate();
+			displayDetails(currNode);
+			data[currNode].active = true;
+			moveNodes();
 		} // end of init
+
+		// DRAWING FUNCTIONS
 
 		function animate(){
 			//console.log("animate");
 			var dt = calculateDeltaTime();
 
+			//displayDetails(currNode);
+
+			// if key is down
+			if (keydown[KEYBOARD.KEY_LEFT]) {
+				// make key up
+				keydown[KEYBOARD.KEY_LEFT] = false;
+				if(currNode > 0){
+					//console.log(currNode);
+					data[currNode].active = false;
+					currNode--;
+					data[currNode].active = true;
+					displayDetails(currNode);
+				}
+			}
+			// if key is down
+			if (keydown[KEYBOARD.KEY_RIGHT]) {
+				// make key up
+				keydown[KEYBOARD.KEY_RIGHT] = false;
+				if(currNode < data.length - 1){
+					//console.log(currNode);
+					data[currNode].active = false;
+					currNode++;
+					data[currNode].active = true;
+					displayDetails(currNode);
+				}
+			}
+
 			//Draw Background
-			//drawBackground();
+			drawBackground();
 
 			//Draw Everything Else
 			drawNodes();
@@ -66,8 +120,37 @@
 			});
 		}
 
-		function loadNodes(){
-			data.push(new dataNode());
+		function displayDetails(index){
+			//console.log(data.length);
+      		var contentDiv = document.getElementById('content');
+      		contentDiv.innerHTML = "";
+
+      		var myDiv = document.createElement('div');
+
+      		var h2Element = document.createElement('h2');
+      		h2Element.innerHTML = data[index].title;
+
+      		var pElement = document.createElement('p');
+      		pElement.innerHTML = data[index].info;
+
+      		myDiv.appendChild(h2Element);
+      		myDiv.appendChild(pElement);
+      		contentDiv.appendChild(myDiv);
+		}
+
+		//Parallaxing background
+		function drawBackground(){				
+			bkgrdX -= 1;
+			
+			ctx.drawImage(images["backgroundImg"], bkgrdX, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+			// Draw another image at the top edge of the first image
+			ctx.drawImage(images["backgroundImg"], bkgrdX + CANVAS_WIDTH, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+			// If the image scrolled off the screen, reset
+			if (bkgrdX <= -CANVAS_WIDTH){
+				bkgrdX = 0;
+			}
 		}
 
 		// HELPER FUNCTIONS
@@ -99,11 +182,68 @@
 						//console.log(this.src + "load complete");
 						if(++numLoadedImages >= numImages){
 							//console.log("Done loading images");
-							init(); //Start the game already
+
+							getData('json/data.json');
 						}
 					};
 			}
 		} // end of loadImages
+
+		function moveNodes(){
+			console.log("moving nodes");
+			for (var i = 0; i < data.length; i++) {
+				data[i].x += i * offset;
+				//console.log(data[i].x);
+			};
+		}
+
+		// LOADING FUNCTIONS
+
+		function loadNode(genre, title, details){
+			var node = new dataNode(genre, title, details);
+			//console.log(node);
+			data.push(node);
+		}
+
+		// parse JSON
+		function getData(file) {
+		  var xhr = new XMLHttpRequest();
+		  if (xhr) {
+		    xhr.onreadystatechange = function() {
+		      displayResponseJSON(xhr);
+		    };
+		    xhr.open("GET", file, true);
+		    xhr.send(null);
+		  }
+
+		}
+
+		function displayResponseJSON(xhr) {
+		  if (xhr.readyState == 4) {
+		    if (xhr.status == 200 || xhr.status == 304) {
+		     //alert(xhr.responseText);
+
+		      // this assumes data.json has been loaded 
+		      var myJSON = JSON.parse( xhr.responseText ); 
+		      var allEvents = myJSON.events; 
+
+		      //console.log(allEvents);
+
+		      // loop through all concerts
+		      for (var i=0;i<allEvents.length;i++){ 
+		      	// get specific event
+		        var event = allEvents[i].event;
+		        //console.log(event);
+		        //console.log(event.genre);
+
+		        // load event's genre, title, and details into a dataNode
+		        loadNode(event.genre, event.title, event.description);
+
+		      } // end for
+		      init();
+		    } // end if request.status
+		  } // end request.readyState
+		} // end display response
 
 	</script>
 </head>
@@ -112,6 +252,8 @@
 	<canvas>
 		Your browser doesn't support canvas!
 	</canvas>
+
+	<div id="content"></div>
 </body>
 
 </html>

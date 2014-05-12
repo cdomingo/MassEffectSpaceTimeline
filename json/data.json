@@ -1,0 +1,35 @@
+{
+	"events":[
+		{
+			"event" : {
+				"genre" : "Graphic Novel",
+				"title" : "Evolution",
+				"description" : "First Contact War - 2157: Shanxi is occupied by the turians. Jack Harper begins his path to becoming the Illusive Man."
+			}},
+			{
+			"event" : {
+				"genre" : "Video Game",
+				"title" : "Mass Effect",
+				"description" : "Commander Shepard uncovers a Prothean Beacon, giving him visions of Prothean history."
+			}},
+			{
+			"event" : {
+				"genre" : "Video Game",
+				"title" : "Mass Effect 2",
+				"description" : "Following the defeat of Saren Arterius and Sovereign, the Normandy is ambushed and Shepard is MIA."
+			}},
+			{
+			"event" : {
+				"genre" : "Graphic Novel",
+				"title" : "Retribution",
+				"description" : "In search of answers, Liara T'Soni travels to Omega to find Shepard's lost body."
+			}},
+			{
+			"event" : {
+				"genre" : "Video Game",
+				"title" : "Mass Effect 2",
+				"description" : "Following recovery of Shepard's body, Cerberus brings Shepard back to life."
+			}
+		}
+	]
+}

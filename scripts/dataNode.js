@@ -3,19 +3,21 @@
  Author: Carl Domingo
  Last Modified: 5/7/2014
  Description: Singleton object representing data nodes
- Dependencies: uses global variables: images,keydown,KEYBOARD
+ Dependencies:
 */
 
 "use strict";
 window.dataNode = (function(){
-  function dataNode() {
+  function dataNode(genre, title, details) {
     this.color = "yellow";
     this.height = 50;
     this.width = 50;
-    this.x = 200;
+    this.x = 50;
     this.y = 200;
-    this.title = "TEST";
-    this.info = "TEST";
+    this.active = false;
+    this.genre = genre;
+    this.title = title;
+    this.info = details;
     this.nextNode = null;
   };
 
@@ -24,7 +26,7 @@ window.dataNode = (function(){
 		var halfH = this.height/2;
 		ctx.drawImage(images["nodeImage"], this.x - halfW, this.y - halfH, this.width, this.height);
 
-    this.showParticles(ctx);
+    if(this.active) this.showParticles(ctx);
 
 	};
 
@@ -32,11 +34,11 @@ window.dataNode = (function(){
 		var halfW = this.width / 2;
     var halfH = this.height / 2;
 
-		p.x = getRandom(-this.width, this.width);
-		p.y = getRandom(-(this.height +halfH), halfH);
-		p.r = getRandom(0.5, 3);
-		p.xSpeed = getRandom(-1,1);
-		p.ySpeed = getRandom(-1,1);
+		p.x = getRandom(-halfW, halfW);
+		p.y = -halfH;
+		p.r = getRandom(0.5, 1);
+		p.xSpeed = getRandom(-2,2);
+		p.ySpeed = getRandom(-2,2);
 		return p;
 	}; // end of initParticle
 
@@ -45,13 +47,13 @@ window.dataNode = (function(){
     this.particles = [];
 
     // create 20 exhaust particles
-    for(var i=0;i<20;i++){
+    for(var i=0;i<10;i++){
 
       // create an "empty" particle object
       var p = {};
 
       // give it a random age when first created
-      p.age = getRandomInt(0,49);
+      p.age = getRandomInt(0,74);
 
       // add to array
       this.particles.push(this.initParticle(p));
@@ -73,12 +75,12 @@ window.dataNode = (function(){
   	 p.r += 0.30;
   	 p.x += p.xSpeed;
   	 p.y += p.ySpeed;
-     var red = Math.floor(getRandom(150, 254));
-     var green = Math.floor(getRandom(70, 156));
-     var blue = Math.floor(getRandom(1, 50));
-  	 var alpha = 0.3;
+     var red = Math.floor(getRandom(135, 255));
+     var green = Math.floor(getRandom(50, 120));
+     var blue = Math.floor(getRandom(0, 80));
+  	 var alpha = 1 - p.age/75;
 
-    console.log(red + " " + green + " " + blue);
+    //console.log(red + " " + green + " " + blue);
 
   	 // set fill color
   	 ctx.fillStyle = "rgba(" + red + "," + green + "," + blue + "," + alpha + ")";
@@ -89,7 +91,7 @@ window.dataNode = (function(){
   	ctx.fill();
 
   	 // if the particle is too old, recycle it
-  	 if(p.age >=30){
+  	 if(p.age >= 50){
   		 p.age = 0;
   		 this.initParticle(p);
   	 }
