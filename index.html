@@ -21,10 +21,10 @@
 		var offset = 75;
 		var IMAGE_SOURCES = {
 			nodeImage: "images/circle.png",
-			backgroundImg: "images/background1.jpg"
-			//novelImage: "images/novel.png",
+			backgroundImg: "images/background1.jpg",
+			novelImage: "images/novel.png",
 			//dlcImg: "images/dlc.png",
-			//gameImg: "images/game.png"
+			gameImage: "images/game.png"
 		};
 
 		//Globals
@@ -128,7 +128,7 @@
       		var myDiv = document.createElement('div');
 
       		var h2Element = document.createElement('h2');
-      		h2Element.innerHTML = data[index].title;
+      		h2Element.innerHTML = data[index].genre + ": " +data[index].title;
 
       		var pElement = document.createElement('p');
       		pElement.innerHTML = data[index].info;

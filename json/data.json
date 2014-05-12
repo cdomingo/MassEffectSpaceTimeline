@@ -2,9 +2,27 @@
 	"events":[
 		{
 			"event" : {
+				"genre" : "Video Game",
+				"title" : "Mass Effect 3",
+				"description" : "The Reapers attack the Prothean Empire to begin a new harvest."
+			}},
+		{
+			"event" : {
+				"genre" : "Video Game",
+				"title" : "Mass Effect",
+				"description" : "Humanity discovers Mass Effect Physics, which leads to the discovery of faster than light travel."
+			}},
+			{
+			"event" : {
 				"genre" : "Graphic Novel",
 				"title" : "Evolution",
 				"description" : "First Contact War - 2157: Shanxi is occupied by the turians. Jack Harper begins his path to becoming the Illusive Man."
+			}},
+			{
+			"event" : {
+				"genre" : "Graphic Novel",
+				"title" : "Homeworlds",
+				"description" : "Tali'Zorah begins her Pilgrimage to understand the Geth."
 			}},
 			{
 			"event" : {
@@ -21,7 +39,7 @@
 			{
 			"event" : {
 				"genre" : "Graphic Novel",
-				"title" : "Retribution",
+				"title" : "Redemption",
 				"description" : "In search of answers, Liara T'Soni travels to Omega to find Shepard's lost body."
 			}},
 			{
@@ -29,6 +47,24 @@
 				"genre" : "Video Game",
 				"title" : "Mass Effect 2",
 				"description" : "Following recovery of Shepard's body, Cerberus brings Shepard back to life."
+			}},
+			{
+			"event" : {
+				"genre" : "Video Game",
+				"title" : "Mass Effect 2",
+				"description" : "Shepard and crew travel to the center of the galaxy to contront the threat of the Collectors."
+			}},
+			{
+			"event" : {
+				"genre" : "Graphic Novel",
+				"title" : "Invasion",
+				"description" : "Omega comes under attack by Cerberus and Aria T'Loak is forced to retreat."
+			}},
+			{
+			"event" : {
+				"genre" : "Video Game",
+				"title" : "Mass Effect 3",
+				"description" : "Shepard's return to Earth is cut short as the Reaper Invasion begins and attempts to bring the races of the galaxy together."
 			}
 		}
 	]

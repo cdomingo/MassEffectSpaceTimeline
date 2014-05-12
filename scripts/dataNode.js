@@ -24,7 +24,15 @@ window.dataNode = (function(){
   dataNode.prototype.draw = function(ctx) {
 		var halfW = this.width/2;
 		var halfH = this.height/2;
-		ctx.drawImage(images["nodeImage"], this.x - halfW, this.y - halfH, this.width, this.height);
+		//ctx.drawImage(images["nodeImage"], this.x - halfW, this.y - halfH, this.width, this.height);
+    if(this.genre == "Video Game")
+    {
+      ctx.drawImage(images["gameImage"], this.x - halfW, this.y - halfH, this.width, this.height);
+    }
+    if(this.genre == "Graphic Novel")
+    {
+      ctx.drawImage(images["novelImage"], this.x - halfW, this.y - halfH, this.width, this.height);
+    }
 
     if(this.active) this.showParticles(ctx);
 
@@ -75,9 +83,9 @@ window.dataNode = (function(){
   	 p.r += 0.30;
   	 p.x += p.xSpeed;
   	 p.y += p.ySpeed;
-     var red = Math.floor(getRandom(135, 255));
-     var green = Math.floor(getRandom(50, 120));
-     var blue = Math.floor(getRandom(0, 80));
+     var red = Math.floor(getRandom(0, 255));
+     var green = Math.floor(getRandom(0, 255));
+     var blue = Math.floor(getRandom(0, 255));
   	 var alpha = 1 - p.age/75;
 
     //console.log(red + " " + green + " " + blue);
