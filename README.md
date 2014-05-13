@@ -1,4 +1,4 @@
 MassEffectSpaceTimeline
 =======================
 
-An interactive timeline for the Mass Effect Universe
+An interactive timeline using Canvas and Javascript for the Mass Effect Universe
